@@ -1,0 +1,142 @@
+﻿<Window x:Class="WpfApp3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp3"
+        mc:Ignorable="d"
+        Title="IQ Progress" Height="450" Width="800">
+
+    <Grid Background="#1CB0F6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Основная карточка -->
+        <Border Background="White"
+                CornerRadius="20"
+                Margin="20"
+                Effect="{StaticResource DuoShadow}">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхняя секция с прогрессом -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Иконка мозга с анимацией -->
+                    <Image Source="/mind-clipart-images-31.png" 
+                           Width="72" Height="72" 
+                           Margin="10,10,20,10"
+                           RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <ScaleTransform x:Name="BrainScale" />
+                        </Image.RenderTransform>
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Image.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="BrainScale"
+                                            Storyboard.TargetProperty="ScaleX"
+                                            From="0.8" To="1.1" Duration="0:0:1"
+                                            AutoReverse="True"
+                                            RepeatBehavior="Forever"/>
+                                        <DoubleAnimation 
+                                            Storyboard.TargetName="BrainScale"
+                                            Storyboard.TargetProperty="ScaleY"
+                                            From="0.8" To="1.1" Duration="0:0:1"
+                                            AutoReverse="True"
+                                            RepeatBehavior="Forever"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+
+                    <!-- Секция с прогрессом -->
+                    <StackPanel Grid.Column="1" Margin="0,10">
+                        <TextBlock Text="Твой IQ:" 
+                                 FontSize="20" 
+                                 FontWeight="Bold"
+                                 Foreground="#3C3C3C"
+                                 Margin="0,0,0,8"/>
+
+                        <ProgressBar x:Name="IQprogress"
+                                   Height="43"
+                                   Maximum="200"
+                                   Background="#FFE5E5E5">
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="ProgressBar.ValueChanged">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="0.7" To="1" Duration="0:0:0.3"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                From="0.95" To="1" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                    </StackPanel>
+
+                    <!-- Секция "как у" -->
+                    <StackPanel Grid.Column="2" Margin="20,10,10,10">
+                        <TextBlock Text="как у:" 
+                                 FontSize="20"
+                                 FontWeight="Bold"
+                                 Foreground="#3C3C3C"
+                                 Margin="0,0,0,8"/>
+
+                        <Border CornerRadius="15" 
+                                Width="72" 
+                                Height="72"
+                                ClipToBounds="True">
+                            <Image Source="/sonofwhore.jpg" 
+                                   Stretch="UniformToFill" Margin="-25,0,0,0"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Кнопка повышения IQ -->
+                <Button x:Name="upiq"
+                        Grid.Row="1"
+                        Content="ПОВЫСИТЬ IQ"
+                        Height="66"
+                        MaxWidth="300"
+                        Margin="0,20"
+                        VerticalAlignment="Center"
+                        Click="Button_Click">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                        From="0.95" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                        From="0.95" To="1" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                    <Button.RenderTransform>
+                        <ScaleTransform/>
+                    </Button.RenderTransform>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
