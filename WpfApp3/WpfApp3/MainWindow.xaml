@@ -1,0 +1,212 @@
+﻿<Window x:Class="WpfApp3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp3"
+        mc:Ignorable="d"
+        Title="IQ Progress" Height="700" Width="1000"
+        MinHeight="700" MinWidth="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <DropShadowEffect x:Key="DuoShadow"
+                         ShadowDepth="0"
+                         BlurRadius="20"
+                         Opacity="0.2"/>
+    </Window.Resources>
+
+    <Grid Background="#1CB0F6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель с прогрессом (фиксированная) -->
+        <Border Background="White"
+                CornerRadius="20"
+                Margin="20,20,20,0"
+                Effect="{StaticResource DuoShadow}"
+                Height="120">
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Иконка мозга с анимацией -->
+                <Image Source="/mind-clipart-images-31.png" 
+                       Width="72" Height="72" 
+                       Margin="10,0,20,0"
+                       RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <ScaleTransform x:Name="BrainScale" />
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Image.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetName="BrainScale"
+                                        Storyboard.TargetProperty="ScaleX"
+                                        From="0.8" To="1.1" Duration="0:0:1"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever"/>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetName="BrainScale"
+                                        Storyboard.TargetProperty="ScaleY"
+                                        From="0.8" To="1.1" Duration="0:0:1"
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+
+                <!-- Секция с прогрессом -->
+                <StackPanel Grid.Column="1" Margin="0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Твой IQ:" 
+                                 FontSize="20" 
+                                 FontWeight="Bold"
+                                 Foreground="#3C3C3C"/>
+
+                        <TextBlock x:Name="ProgressText"
+                                 Grid.Column="2"
+                                 Text="0 IQ"
+                                 FontSize="20"
+                                 FontWeight="Bold"
+                                 Foreground="{StaticResource DuoPrimaryColor}"/>
+                    </Grid>
+
+                    <ProgressBar x:Name="IQprogress"
+                               Height="43"
+                               Maximum="200"
+                               Value="0"
+                               Margin="0,10,0,0"
+                               Background="#FFE5E5E5">
+                        <ProgressBar.RenderTransform>
+                            <ScaleTransform/>
+                        </ProgressBar.RenderTransform>
+                    </ProgressBar>
+                </StackPanel>
+
+                <!-- Секция "как у" -->
+                <StackPanel Grid.Column="2" Margin="20,0,10,0">
+                    <TextBlock Text="как у:" 
+                             FontSize="20"
+                             FontWeight="Bold"
+                             Foreground="#3C3C3C"
+                             Margin="0,0,0,8"/>
+
+                    <Border x:Name="ComparisonImageBorder"
+                            CornerRadius="15" 
+                            Width="72" 
+                            Height="72"
+                            ClipToBounds="True">
+                        <Viewbox Stretch="Uniform">
+                            <Image x:Name="ComparisonImage"
+                                   Source="/sonofwhore.jpg" 
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Opacity="1">
+                                <Image.Effect>
+                                    <DropShadowEffect BlurRadius="10" 
+                                                    ShadowDepth="0" 
+                                                    Color="#3C3C3C" 
+                                                    Opacity="0.3"/>
+                                </Image.Effect>
+                            </Image>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Основная область для заданий -->
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="20"
+                Margin="20"
+                Effect="{StaticResource DuoShadow}">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок секции заданий -->
+                <TextBlock Text="Задания для повышения IQ"
+                          FontSize="24"
+                          FontWeight="Bold"
+                          Margin="0,0,0,20"
+                          Foreground="#3C3C3C"/>
+
+                <!-- Кнопка быстрого повышения IQ -->
+                <Button x:Name="upiq"
+                        Grid.Row="1"
+                        Content="ПОВЫСИТЬ IQ"
+                        Height="66"
+                        MaxWidth="300"
+                        Margin="0,0,0,20"
+                        Click="Button_Click"
+                        Style="{StaticResource UpIQButtonStyle}">
+                    <Button.RenderTransform>
+                        <ScaleTransform/>
+                    </Button.RenderTransform>
+                </Button>
+
+                <!-- Сетка с заданиями -->
+                <WrapPanel Grid.Row="2"
+                          Orientation="Horizontal"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Top">
+                    <Button Content="Математика"
+                            Width="200"
+                            Height="150"
+                            Margin="10"
+                            Click="Task1_Click">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" 
+                                            ShadowDepth="0" 
+                                            Color="#3C3C3C" 
+                                            Opacity="0.2"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Логика"
+                            Width="200"
+                            Height="150"
+                            Margin="10"
+                            Click="Task2_Click">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" 
+                                            ShadowDepth="0" 
+                                            Color="#3C3C3C" 
+                                            Opacity="0.2"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Память"
+                            Width="200"
+                            Height="150"
+                            Margin="10"
+                            Click="Task3_Click">
+                        <Button.Effect>
+                            <DropShadowEffect BlurRadius="10" 
+                                            ShadowDepth="0" 
+                                            Color="#3C3C3C" 
+                                            Opacity="0.2"/>
+                        </Button.Effect>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
